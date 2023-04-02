@@ -23,18 +23,18 @@ func (instruction AsmInstruction) String() string {
 func (instruction AsmInstruction) CalculateInstructionLength() int {
 	if instruction.OpCode == "RESB" {
 		operandInt, err := strconv.Atoi(instruction.Operand)
-		utils.HandleError(err)
+		utils.PanicIfError(err)
 
 		val := operandInt
-		utils.HandleError(err)
+		utils.PanicIfError(err)
 
 		return val
 	} else if instruction.OpCode == "RESW" {
 		operandInt, err := strconv.Atoi(instruction.Operand)
-		utils.HandleError(err)
+		utils.PanicIfError(err)
 
 		val := operandInt
-		utils.HandleError(err)
+		utils.PanicIfError(err)
 
 		return val * 3
 	} else if instruction.OpCode == "BYTE" {

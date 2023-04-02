@@ -10,7 +10,7 @@ import (
 	"strings"
 )
 
-func HandleError(err error) {
+func PanicIfError(err error) {
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -37,7 +37,7 @@ func HandleCodeInput() string {
 	for {
 		reader := bufio.NewReader(os.Stdin)
 		input, err := reader.ReadString('\n')
-		HandleError(err)
+		PanicIfError(err)
 
 		if strings.Contains(strings.ToUpper(input), "END") {
 			break
@@ -78,7 +78,7 @@ func ToHexRepresentation(num int) string {
 
 func DecimalToHex(num int) int {
 	hex, err := strconv.ParseInt(fmt.Sprintf("%X", num), 16, 64)
-	HandleError(err)
+	PanicIfError(err)
 
 	return int(hex)
 }
@@ -86,7 +86,7 @@ func DecimalToHex(num int) int {
 func HexToDecimal(num int) int {
 	_num := strconv.Itoa(num)
 	decimal, err := strconv.ParseInt(_num, 16, 64)
-	HandleError(err)
+	PanicIfError(err)
 
 	return int(decimal)
 }

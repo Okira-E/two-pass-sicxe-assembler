@@ -18,12 +18,12 @@ func FirstPass(asmInstructions *[]AsmInstruction) map[string]int {
 
 	// Check missing START instruction.
 	if (*asmInstructions)[0].OpCode != "START" {
-		utils.HandleError(errors.New("ERROR: program doesn't start with a START instruction"))
+		utils.PanicIfError(errors.New("ERROR: program doesn't start with a START instruction"))
 	}
 
 	// Check missing END instruction.
 	if (*asmInstructions)[len(*asmInstructions)-1].OpCode != "END" {
-		utils.HandleError(errors.New("ERROR: program doesn't end with an END instruction"))
+		utils.PanicIfError(errors.New("ERROR: program doesn't end with an END instruction"))
 	}
 
 	startingAddress := (*asmInstructions)[0].Operand
@@ -32,7 +32,7 @@ func FirstPass(asmInstructions *[]AsmInstruction) map[string]int {
 	}
 
 	startingAddressInt, err := strconv.ParseInt(startingAddress, 16, 64)
-	utils.HandleError(err)
+	utils.PanicIfError(err)
 
 	loc := int(startingAddressInt)
 
@@ -78,7 +78,7 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int) stri
 			// If the operand is empty, we assume the starting address is 0.
 			if asmInstruction.Operand != "" {
 				val, err := strconv.Atoi(asmInstruction.Operand)
-				utils.HandleError(err)
+				utils.PanicIfError(err)
 				startingAddress = val
 			}
 

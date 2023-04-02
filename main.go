@@ -22,7 +22,7 @@ func main() {
 
 		var choice int
 		_, err := fmt.Scan(&choice)
-		utils.HandleError(err)
+		utils.PanicIfError(err)
 
 		if choice == 1 {
 			asm = utils.HandleCodeInput()
