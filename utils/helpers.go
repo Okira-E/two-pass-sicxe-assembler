@@ -48,19 +48,22 @@ func HandleCodeInput() string {
 	return asm
 }
 
-func HandleFileInput() string {
+func HandleFileInput() (string, error) {
 	var asm string
 
 	Log("Enter the path to your file: ")
 	reader := bufio.NewReader(os.Stdin)
 	filePath, err := reader.ReadString('\n')
-	HandleError(err)
+	PanicIfError(err)
 
 	file, err := os.Open(strings.TrimSpace(filePath))
-	HandleError(err)
+	if err != nil {
+		return "", err
+	}
+
 	defer func() {
 		err := file.Close()
-		HandleError(err)
+		PanicIfError(err)
 	}()
 
 	scanner := bufio.NewScanner(file)
@@ -69,7 +72,7 @@ func HandleFileInput() string {
 		asm += scanner.Text() + "\n"
 	}
 
-	return asm
+	return asm, nil
 }
 
 func ToHexRepresentation(num int) string {

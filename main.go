@@ -28,7 +28,15 @@ func main() {
 			asm = utils.HandleCodeInput()
 			break
 		} else if choice == 2 {
-			asm = utils.HandleFileInput()
+			for {
+				asm, err = utils.HandleFileInput()
+				if err != nil {
+					utils.Log(err.Error())
+					continue
+				} else {
+					break
+				}
+			}
 			break
 		} else if choice == 3 {
 			assembler.PrintInstructionSet()
