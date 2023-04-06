@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	const choicesPrompt = "Enter (1) to enter code, (2) to read from a file, (3) to view the instruction set, or (4) to view the rules of the assembly: "
+	const choicesPrompt = "Enter (1) to read from a file, (2) to view the instruction set, or (3) to view the rules of the assembly: "
 
 	utils.Log("Welcome to my SIC/XE Assembler!")
 	utils.Log(choicesPrompt)
@@ -26,9 +26,6 @@ func main() {
 		utils.PanicIfError(err)
 
 		if choice == 1 {
-			asm = utils.HandleCodeInput()
-			break
-		} else if choice == 2 {
 			for {
 				asm, err = utils.HandleFileInput()
 				if err != nil {
@@ -39,11 +36,11 @@ func main() {
 				}
 			}
 			break
-		} else if choice == 3 {
+		} else if choice == 2 {
 			assembler.PrintInstructionSet()
 			continue
-		} else if choice == 4 {
-			//assembler.PrintAssemblerRules()
+		} else if choice == 3 {
+			assembler.PrintAssemblerRules()
 		} else {
 			utils.Log("Invalid choice.")
 		}
