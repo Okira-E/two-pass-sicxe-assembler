@@ -220,15 +220,20 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 							// Calculate the Program Counter displacement
 							programCounterDisp := symTable[rawOperand] - (*asmInstructions)[i+1].Loc
 							// Calculate the Base register displacement.
+							baseRegisterExists := baseRegister.Value != ""
 							var baseRegisterDisp int
 							// IsRef tells us if the value provided in the base register is a label itself or not.
 							// "Not" being the numeric value provided immediately.
-							if baseRegister.IsRef {
-								baseRegisterDisp = symTable[rawOperand] - symTable[baseRegister.Value]
-							} else {
-								baseValue, err := strconv.Atoi(baseRegister.Value)
-								utils.PanicIfError(err)
-								baseRegisterDisp = symTable[rawOperand] - baseValue
+							if baseRegisterExists {
+								if baseRegister.IsRef {
+									baseRegisterDisp = symTable[rawOperand] - symTable[baseRegister.Value]
+								} else {
+									baseRegisterValueInDecimal, err := strconv.ParseInt(baseRegister.Value, 16, 64)
+									baseValue := int(baseRegisterValueInDecimal)
+
+									utils.PanicIfError(err)
+									baseRegisterDisp = symTable[rawOperand] - baseValue
+								}
 							}
 
 							// Decide which displacement should be used.
@@ -236,7 +241,7 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 							if programCounterDisp >= -2048 && programCounterDisp <= 2047 {
 								dispTechnique = "pc"
 								thirdHalfByte += 2
-							} else if baseRegisterDisp >= 0 && baseRegisterDisp <= 4095 {
+							} else if baseRegisterExists && baseRegisterDisp >= 0 && baseRegisterDisp <= 4095 {
 								dispTechnique = "base"
 								thirdHalfByte += 4
 							}
