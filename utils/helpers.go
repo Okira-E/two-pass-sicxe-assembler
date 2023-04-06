@@ -29,25 +29,6 @@ func Log(str ...interface{}) {
 	fmt.Print("\n")
 }
 
-func HandleCodeInput() string {
-	var asm string
-
-	Log("Enter your code ending in an END instruction: ")
-
-	for {
-		reader := bufio.NewReader(os.Stdin)
-		input, err := reader.ReadString('\n')
-		PanicIfError(err)
-
-		if strings.Contains(strings.ToUpper(input), "END") {
-			break
-		}
-		asm += input
-	}
-
-	return asm
-}
-
 func HandleFileInput() (string, error) {
 	var asm string
 
