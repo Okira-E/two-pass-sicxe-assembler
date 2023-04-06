@@ -89,3 +89,21 @@ func PrintInstructionSet() {
 	t.AppendRows(tableRows)
 	t.Render()
 }
+
+func requiresTheIndexRegister(opCode string) bool {
+	return strings.Contains(opCode, ",X")
+}
+
+func operandIsAbsolute(operand string) bool {
+	// Note:- The following code assumes that a label field CANNOT be an absolute value. I.e. the EQU is not supported
+	// If you want to support symbol-defining instructions, make sure if the value evaluated in the operand field is
+	// indeed absolute. For now, any label is supposed to hold an address.
+
+	// Check if the operand is a number or not. Number -> absolute value. NaN -> relative address.
+	_, err := strconv.Atoi(operand)
+	if err != nil {
+		return false
+	} else {
+		return true
+	}
+}
