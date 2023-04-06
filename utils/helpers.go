@@ -79,13 +79,6 @@ func ToHexRepresentation(num int) string {
 	return fmt.Sprintf("%X", num)
 }
 
-func DecimalToHex(num int) int {
-	hex, err := strconv.ParseInt(fmt.Sprintf("%X", num), 16, 64)
-	PanicIfError(err)
-
-	return int(hex)
-}
-
 func HexToDecimal(num int) int {
 	_num := strconv.Itoa(num)
 	decimal, err := strconv.ParseInt(_num, 16, 64)
