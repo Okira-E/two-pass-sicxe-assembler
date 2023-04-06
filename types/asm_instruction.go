@@ -18,7 +18,7 @@ type AsmInstruction struct {
 func (instruction AsmInstruction) String() string {
 	loc := fmt.Sprintf("%X", instruction.Loc)
 
-	return loc + " " + instruction.Label + " " + instruction.OpCode + " " + instruction.Operand
+	return loc + " " + instruction.Label + " " + instruction.OpCodeEn + " " + instruction.Operand + " " + instruction.ObjCode
 }
 
 func (instruction AsmInstruction) CalculateInstructionLength() int {
