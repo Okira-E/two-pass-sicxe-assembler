@@ -13,16 +13,11 @@ import (
 func ParseCode(asm string) []types.AsmInstruction {
 	asm = strings.ToUpper(asm)
 
-	// Remove all extra spaces.
-	var invalidCharOrSpace = func(char byte) bool {
-		return char < 33 || char > 126
-	}
-
 	// Replaces consecutive spaces with a single space.
 	for i := range asm {
 		char := asm[i]
 		if i == 0 {
-			if invalidCharOrSpace(char) {
+			if utils.InvalidCharOrSpace(char) {
 				// Remove the character.
 				asm = asm[:i] + asm[i+1:]
 			}
@@ -30,8 +25,8 @@ func ParseCode(asm string) []types.AsmInstruction {
 		}
 
 		prevChar := asm[i-1]
-		if invalidCharOrSpace(char) {
-			if invalidCharOrSpace(prevChar) {
+		if utils.InvalidCharOrSpace(char) {
+			if utils.InvalidCharOrSpace(prevChar) {
 				// Check if it's the last character. If so, remove it.
 				if i == len(asm)-1 {
 					asm = asm[:i]
