@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/Okira-E/two-pass-sicxe-assembler/assembler"
+	"github.com/Okira-E/two-pass-sicxe-assembler/types"
 	"github.com/Okira-E/two-pass-sicxe-assembler/utils"
 )
 
@@ -53,13 +54,14 @@ func main() {
 
 	utils.Log("-- First Pass")
 	// Creates the Symbol Table, as well as, assigns memory locations for each line in the assembly.
-	symTable := assembler.FirstPass(&asmInstructions)
+	baseRegister := types.BaseRegister{}
+	symTable := assembler.FirstPass(&asmInstructions, &baseRegister)
 	// Print the Symbol table.
 	utils.Log("Symbol Table:")
 	utils.PrintSymTable(symTable)
 
 	// Returns the object program, as well as, creates an object code for each line in the assembly.
-	objProgram := assembler.SecondPass(&asmInstructions, symTable)
+	objProgram := assembler.SecondPass(&asmInstructions, symTable, baseRegister)
 	utils.Log("-- Second Pass")
 	utils.Log(objProgram)
 }

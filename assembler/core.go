@@ -57,6 +57,20 @@ func FirstPass(asmInstructions *[]AsmInstruction) map[string]int {
 			newLoc += val
 		} else if asmInstructionRef.IsReserveInstruction() {
 			newLoc += asmInstructionRef.CalculateInstructionLength()
+		} else if asmInstructionRef.OpCodeEn == "BASE" {
+			baseOperand := asmInstructionRef.Operand
+			baseOperand = strings.ReplaceAll(baseOperand, "#", "")
+			baseOperand = strings.ReplaceAll(baseOperand, "@", "")
+
+			_, err := strconv.Atoi(baseOperand)
+			// The operand is a label.
+			if err != nil {
+				baseRegister.IsRef = true
+				baseRegister.Value = baseOperand
+			} else { // The operand is the numeric value.
+				baseRegister.IsRef = false
+				baseRegister.Value = baseOperand
+			}
 		}
 
 		if strings.ToUpper(asmInstructionRef.Label) != "NIL" {
@@ -69,7 +83,7 @@ func FirstPass(asmInstructions *[]AsmInstruction) map[string]int {
 	return symTable
 }
 
-func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int) string {
+func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, baseRegister BaseRegister) string {
 	objProgram := ""
 
 	startingAddress := 0
