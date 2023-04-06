@@ -113,5 +113,42 @@ func PrintSymTable(symTable map[string]int) {
 	t.Render()
 }
 
-func DoNothing(param ...interface{}) {
+func CheckLengthAfterChar(str string, char string) int {
+	// Get the length of the last element in the slice returned by strings.Split(str, char).
+	// Example: T234*21332*42342*433 -> 3
+	arr := strings.Split(str, char)
+
+	length := len(arr[len(arr)-1])
+
+	return length
+}
+
+func Complement16For3Digits(hex string) string {
+	complement := ""
+
+	for i, val := range hex {
+		char := string(val)
+
+		if char != "-" {
+			decimalChar, err := strconv.Atoi(char)
+			PanicIfError(err)
+
+			if i == len(hex)-1 {
+				complement += fmt.Sprintf("%X", 16-decimalChar)
+			} else {
+				complement += fmt.Sprintf("%X", 15-decimalChar)
+			}
+		}
+	}
+
+	for len(complement) < 3 {
+		complement = "F" + complement[:]
+	}
+
+	return complement
+}
+
+func InvalidCharOrSpace(char byte) bool {
+	// Remove all extra spaces.
+	return char < 33 || char > 126
 }
