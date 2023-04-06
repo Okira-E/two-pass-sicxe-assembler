@@ -8,10 +8,11 @@ import (
 )
 
 type AsmInstruction struct {
-	Loc     int
-	Label   string
-	OpCode  string
-	Operand string
+	Loc      int
+	Label    string
+	OpCodeEn string
+	Operand  string
+	ObjCode  string
 }
 
 func (instruction AsmInstruction) String() string {
@@ -21,7 +22,7 @@ func (instruction AsmInstruction) String() string {
 }
 
 func (instruction AsmInstruction) CalculateInstructionLength() int {
-	if instruction.OpCode == "RESB" {
+	if instruction.OpCodeEn == "RESB" {
 		operandInt, err := strconv.Atoi(instruction.Operand)
 		utils.PanicIfError(err)
 
@@ -29,7 +30,7 @@ func (instruction AsmInstruction) CalculateInstructionLength() int {
 		utils.PanicIfError(err)
 
 		return val
-	} else if instruction.OpCode == "RESW" {
+	} else if instruction.OpCodeEn == "RESW" {
 		operandInt, err := strconv.Atoi(instruction.Operand)
 		utils.PanicIfError(err)
 
@@ -37,7 +38,7 @@ func (instruction AsmInstruction) CalculateInstructionLength() int {
 		utils.PanicIfError(err)
 
 		return val * 3
-	} else if instruction.OpCode == "BYTE" {
+	} else if instruction.OpCodeEn == "BYTE" {
 		if instruction.Operand[0] == 'C' {
 			val := strings.Split(instruction.Operand, "`")[1]
 
@@ -55,7 +56,7 @@ func (instruction AsmInstruction) CalculateInstructionLength() int {
 }
 
 func (instruction AsmInstruction) IsZeroLengthInstruction(OpTable map[string]CpuInstruction) bool {
-	opCode := strings.ReplaceAll(instruction.OpCode, "+", "")
+	opCode := strings.ReplaceAll(instruction.OpCodeEn, "+", "")
 	opCode = strings.ReplaceAll(opCode, "#", "")
 	opCode = strings.ReplaceAll(opCode, "@", "")
 
@@ -67,5 +68,5 @@ func (instruction AsmInstruction) IsZeroLengthInstruction(OpTable map[string]Cpu
 }
 
 func (instruction AsmInstruction) IsReserveInstruction() bool {
-	return instruction.OpCode == "RESW" || instruction.OpCode == "RESB" || instruction.OpCode == "BYTE"
+	return instruction.OpCodeEn == "RESW" || instruction.OpCodeEn == "RESB" || instruction.OpCodeEn == "BYTE"
 }

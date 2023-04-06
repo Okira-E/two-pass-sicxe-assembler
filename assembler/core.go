@@ -17,12 +17,12 @@ func FirstPass(asmInstructions *[]AsmInstruction) map[string]int {
 	symTable := make(map[string]int)
 
 	// Check missing START instruction.
-	if (*asmInstructions)[0].OpCode != "START" {
+	if (*asmInstructions)[0].OpCodeEn != "START" {
 		utils.PanicIfError(errors.New("ERROR: program doesn't start with a START instruction"))
 	}
 
 	// Check missing END instruction.
-	if (*asmInstructions)[len(*asmInstructions)-1].OpCode != "END" {
+	if (*asmInstructions)[len(*asmInstructions)-1].OpCodeEn != "END" {
 		utils.PanicIfError(errors.New("ERROR: program doesn't end with an END instruction"))
 	}
 
@@ -43,13 +43,13 @@ func FirstPass(asmInstructions *[]AsmInstruction) map[string]int {
 
 		if !asmInstructionRef.IsZeroLengthInstruction(vars.OpTable) {
 			opCode := ""
-			// If the OpCode has + before it, we add 1 to its length.
+			// If the OpCodeEn has + before it, we add 1 to its length.
 			addedByteDueToExtendedFormat := 0
-			if strings.Contains(asmInstructionRef.OpCode, "+") {
-				opCode = strings.ReplaceAll(asmInstructionRef.OpCode, "+", "")
+			if strings.Contains(asmInstructionRef.OpCodeEn, "+") {
+				opCode = strings.ReplaceAll(asmInstructionRef.OpCodeEn, "+", "")
 				addedByteDueToExtendedFormat = 1
 			} else {
-				opCode = asmInstructionRef.OpCode
+				opCode = asmInstructionRef.OpCodeEn
 			}
 
 			val := vars.OpTable[opCode].Format + addedByteDueToExtendedFormat
@@ -73,8 +73,8 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int) stri
 	objProgram := ""
 
 	startingAddress := 0
-	for _, asmInstruction := range *asmInstructions {
-		if asmInstruction.OpCode == "START" {
+	for i, asmInstruction := range *asmInstructions {
+		if asmInstruction.OpCodeEn == "START" {
 			// If the operand is empty, we assume the starting address is 0.
 			if asmInstruction.Operand != "" {
 				val, err := strconv.Atoi(asmInstruction.Operand)

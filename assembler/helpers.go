@@ -66,7 +66,7 @@ func ParseCode(asm string) []types.AsmInstruction {
 		var asmInstruction types.AsmInstruction
 
 		asmInstruction.Label = lines[i]
-		asmInstruction.OpCode = lines[i+1]
+		asmInstruction.OpCodeEn = lines[i+1]
 		asmInstruction.Operand = lines[i+2]
 		asmInstructions = append(asmInstructions, asmInstruction)
 	}
