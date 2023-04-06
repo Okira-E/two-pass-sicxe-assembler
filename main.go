@@ -63,5 +63,10 @@ func main() {
 	// Returns the object program, as well as, creates an object code for each line in the assembly.
 	objProgram := assembler.SecondPass(&asmInstructions, symTable, baseRegister)
 	utils.Log("-- Second Pass")
+
+	for _, val := range asmInstructions {
+		fmt.Println(val)
+	}
+
 	utils.Log(objProgram)
 }
