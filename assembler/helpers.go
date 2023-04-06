@@ -107,3 +107,46 @@ func operandIsAbsolute(operand string) bool {
 		return true
 	}
 }
+
+func PrintAssemblerRules() {
+	message := `
+1. The assembler supports the instructions given on prompt 2.
+2. The assembler supports the following addressing modes:
+	- Immediate
+	- Indirect
+	- Simple
+	- Indexed
+3. The assembler supports the following pseudo-ops:
+	- START
+	- END
+	- BYTE
+	- WORD
+	- RESB
+	- RESW	
+4. The assembler supports the following assembler directives:
+	- BASE
+5. Assembly rules:
+	- The assembler assumes that the first instruction is the START instruction.
+	- The assembler assumes that the last instruction is the END instruction.
+	- Assembly code must be written in the following format:
+		* <Label>	<Operation Code>	<Operand>
+	- Assembly code must be written in a single line. symbols must be separated by tabs.
+	- Assembly code is not case-sensitive.
+	- Comments are not supported.
+	- The assembler assumes that the label field is optional. If it is present, it must be a valid label.
+	  If not present, 'nil' or 'NIL' must be used.
+	- The assembler assumes that the operand field is optional. If it is present, it must be a valid operand.
+	  If not present, 'nil' or 'NIL' must be used.
+	- The assembler assumes that the operation code field is mandatory. It must be a valid operation code.
+	- The assembler assumes that the operand field is mandatory for the following operations:
+		* BYTE
+		* WORD
+		* RESB
+		* RESW
+		* START
+		* END
+6. Examples can be found in the 'examples' directory.
+		`
+
+	utils.Log(message)
+}
