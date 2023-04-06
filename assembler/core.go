@@ -13,7 +13,7 @@ import (
 // FirstPass returns a map of the symbol table.
 // The key is the location counter and the value is the label.
 // It modifies the AsmInstruction struct by adding the location counter to each instruction.
-func FirstPass(asmInstructions *[]AsmInstruction) map[string]int {
+func FirstPass(asmInstructions *[]AsmInstruction, baseRegister *BaseRegister) map[string]int {
 	symTable := make(map[string]int)
 
 	// Check missing START instruction.
