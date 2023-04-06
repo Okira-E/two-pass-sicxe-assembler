@@ -23,7 +23,8 @@ func (instruction AsmInstruction) String() string {
 
 func (instruction AsmInstruction) CalculateInstructionLength() int {
 	if instruction.OpCodeEn == "RESB" {
-		operandInt, err := strconv.Atoi(instruction.Operand)
+		operandInDecimal, err := strconv.ParseInt(instruction.Operand, 16, 64)
+		operandInt := int(operandInDecimal)
 		utils.PanicIfError(err)
 
 		val := operandInt
@@ -31,7 +32,8 @@ func (instruction AsmInstruction) CalculateInstructionLength() int {
 
 		return val
 	} else if instruction.OpCodeEn == "RESW" {
-		operandInt, err := strconv.Atoi(instruction.Operand)
+		operandInDecimal, err := strconv.ParseInt(instruction.Operand, 16, 64)
+		operandInt := int(operandInDecimal)
 		utils.PanicIfError(err)
 
 		val := operandInt

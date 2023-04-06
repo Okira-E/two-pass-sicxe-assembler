@@ -123,13 +123,13 @@ func Complement16For3Digits(hex string) string {
 		char := string(val)
 
 		if char != "-" {
-			decimalChar, err := strconv.Atoi(char)
+			charInDecimal, err := strconv.ParseInt(char, 16, 64)
 			PanicIfError(err)
 
 			if i == len(hex)-1 {
-				complement += fmt.Sprintf("%X", 16-decimalChar)
+				complement += fmt.Sprintf("%X", 16-int(charInDecimal))
 			} else {
-				complement += fmt.Sprintf("%X", 15-decimalChar)
+				complement += fmt.Sprintf("%X", 15-int(charInDecimal))
 			}
 		}
 	}

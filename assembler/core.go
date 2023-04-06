@@ -91,8 +91,10 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 		if asmInstruction.OpCodeEn == "START" {
 			// If the operand is empty, we assume the starting address is 0.
 			if asmInstruction.Operand != "" {
-				val, err := strconv.Atoi(asmInstruction.Operand)
+				operandInDecimal, err := strconv.ParseInt(asmInstruction.Operand, 16, 64)
 				utils.PanicIfError(err)
+
+				val := int(operandInDecimal)
 				startingAddress = val
 			}
 
