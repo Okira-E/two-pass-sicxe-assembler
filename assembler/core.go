@@ -196,6 +196,10 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 						thirdHalfByte += 1
 
 						objCode += fmt.Sprintf("%01X", thirdHalfByte) + fmt.Sprintf("%05X", symTable[rawOperand])
+<<<<<<< HEAD
+=======
+						// We add a modification record for the operand because it is a relative address.
+>>>>>>> 16bec4a (Added Modification Records (M) to the object program.)
 						if _, ok := symTable[rawOperand]; ok {
 							modificationRecords += fmt.Sprintf("M%06X05\n", asmInstruction.Loc+1)
 						}
