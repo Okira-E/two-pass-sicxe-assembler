@@ -85,6 +85,7 @@ func FirstPass(asmInstructions *[]AsmInstruction, baseRegister *BaseRegister) ma
 
 func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, baseRegister BaseRegister) string {
 	objProgram := ""
+	modificationRecords := ""
 
 	startingAddress := 0
 	for i, asmInstruction := range *asmInstructions {
@@ -195,6 +196,9 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 						thirdHalfByte += 1
 
 						objCode += fmt.Sprintf("%01X", thirdHalfByte) + fmt.Sprintf("%05X", symTable[rawOperand])
+						if _, ok := symTable[rawOperand]; ok {
+							modificationRecords += fmt.Sprintf("M%06X05\n", asmInstruction.Loc+1)
+						}
 					} else { // 3-bit instruction
 						// See if we should use the Program Counter or the Base register to reach the operand by
 						// displacement.
@@ -302,6 +306,7 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 			finalObjectProgram += "\n" + line
 		}
 	}
+	finalObjectProgram += "\n" + modificationRecords
 
 	// Replace '*' characters with the length of the line.
 
