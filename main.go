@@ -61,9 +61,7 @@ func main() {
 	objProgram := assembler.SecondPass(&asmInstructions, symTable, baseRegister)
 	utils.Log("-- Second Pass")
 
-	for _, val := range asmInstructions {
-		fmt.Println(val)
-	}
+	assembler.PrintAsmWithObjectCodes(asmInstructions)
 
 	utils.Log(objProgram)
 }

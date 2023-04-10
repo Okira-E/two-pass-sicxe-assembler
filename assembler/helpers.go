@@ -1,6 +1,7 @@
 package assembler
 
 import (
+	"fmt"
 	"github.com/Okira-E/two-pass-sicxe-assembler/types"
 	"github.com/Okira-E/two-pass-sicxe-assembler/utils"
 	"github.com/Okira-E/two-pass-sicxe-assembler/vars"
@@ -149,4 +150,23 @@ func PrintAssemblerRules() {
 		`
 
 	utils.Log(message)
+}
+
+func PrintAsmWithObjectCodes(asmInstructions []types.AsmInstruction) {
+	var tableRows []table.Row
+	for _, val := range asmInstructions {
+		label := val.Label
+		if label == "NIL" {
+			label = ""
+		}
+
+		tableRow := table.Row{fmt.Sprintf("%04X", val.Loc), label, val.OpCodeEn, val.Operand, val.ObjCode}
+		tableRows = append(tableRows, tableRow)
+	}
+
+	t := table.NewWriter()
+	t.SetOutputMirror(os.Stdout)
+	t.AppendHeader(table.Row{"Loc", "Label", "OpCode", "Operand", "Object Code"})
+	t.AppendRows(tableRows)
+	t.Render()
 }
