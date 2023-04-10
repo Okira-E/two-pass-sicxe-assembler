@@ -104,6 +104,7 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 			objProgram += "H" + asmInstruction.Label + " " + fmt.Sprintf("%06d", startingAddress) + " " + fmt.Sprintf("%06X", (*asmInstructions)[len(*asmInstructions)-1].Loc-startingAddressInDec) + "\n"
 			continue
 		} else if asmInstruction.OpCodeEn == "END" { // Gets the last line of the assembly. Is true last.
+			objProgram += "\n" + modificationRecords
 			objProgram += "\n" + "E" + fmt.Sprintf("%06s", strconv.Itoa(startingAddress)) + "\n"
 			continue
 		} else {
@@ -307,7 +308,7 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 			finalObjectProgram += "\n" + line
 		}
 	}
-	finalObjectProgram += "\n" + modificationRecords
+	//finalObjectProgram += "\n" + modificationRecords
 
 	// Replace '*' characters with the length of the line.
 
