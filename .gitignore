@@ -16,7 +16,6 @@
 **/nbproject/private/
 **/nbproject/Makefile-*.mk
 **/nbproject/Package-*.bash
-build/
 nbbuild/
 dist/
 nbdist/
@@ -246,6 +245,3 @@ Sessionx.vim
 tags
 # Persistent undo
 [._]*.un~
-
-# Build directories
-build/
