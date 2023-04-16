@@ -101,11 +101,11 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 
 			// This assumes END is the last line in the assembly.
 			startingAddressInDec := utils.HexToDecimal(startingAddress)
-			objProgram += "H" + asmInstruction.Label + " " + fmt.Sprintf("%06d", startingAddress) + " " + fmt.Sprintf("%06X", (*asmInstructions)[len(*asmInstructions)-1].Loc-startingAddressInDec) + "\n"
+			objProgram += "H" + asmInstruction.Label + " " + fmt.Sprintf("%06X", startingAddress) + " " + fmt.Sprintf("%06X", (*asmInstructions)[len(*asmInstructions)-1].Loc-startingAddressInDec) + "\n"
 			continue
 		} else if asmInstruction.OpCodeEn == "END" { // Gets the last line of the assembly. Is true last.
 			objProgram += "\n" + modificationRecords
-			objProgram += "\n" + "E" + fmt.Sprintf("%06s", strconv.Itoa(startingAddress)) + "\n"
+			objProgram += "\n" + "E" + fmt.Sprintf("%06X", startingAddress) + "\n"
 			continue
 		} else {
 			isInExtendedFormat := asmInstruction.OpCodeEn[0] == '+'
