@@ -156,11 +156,16 @@ func PrintAsmWithObjectCodes(asmInstructions []types.AsmInstruction) {
 	var tableRows []table.Row
 	for _, val := range asmInstructions {
 		label := val.Label
+		operand := val.Operand
+
 		if label == "NIL" {
 			label = ""
 		}
+		if operand == "NIL" {
+			operand = ""
+		}
 
-		tableRow := table.Row{fmt.Sprintf("%04X", val.Loc), label, val.OpCodeEn, val.Operand, val.ObjCode}
+		tableRow := table.Row{fmt.Sprintf("%04X", val.Loc), label, val.OpCodeEn, operand, val.ObjCode}
 		tableRows = append(tableRows, tableRow)
 	}
 
