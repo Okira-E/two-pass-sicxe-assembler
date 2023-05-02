@@ -2,6 +2,8 @@
 ## Description
 This is an open source SIC/XE two-pass assembler project written in Go that allows you to translate SIC/XE assembly language code into machine language.
 
+<img src="./resources/showcase-screenshot.png" alt="SIC/XE Two-Pass Assembler">
+
 ## Getting Started
 To get started with this assembler, you will need to download or clone the project to your local machine.
 
