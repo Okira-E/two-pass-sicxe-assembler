@@ -7,24 +7,24 @@ This is an open source SIC/XE two-pass assembler project written in Go that allo
 ## Getting Started
 To get started with this assembler, you will need to download or clone the project to your local machine.
 
-## Usage
-Clone the project form the GitHub repository:
-```shell
-https://github.com/Okira-E/two-pass-sicxe-assembler
-```
-
-To use the assembler, simply run the following command:
-```shell
-./build/assembler
-```
-
 ## Build
 Prerequisites:
 - Go 1.14 or higher
 
+Clone the project form this GitHub repository:
+```shell
+https://github.com/Okira-E/two-pass-sicxe-assembler
+```
+
 To build a new binary, run:
 ```shell
 go build -o build/assembler
+```
+
+## Usage
+To use the assembler, simply run the following command:
+```shell
+./build/assembler
 ```
 
 Chose the first prompt and give the relative location to your assembly file.
