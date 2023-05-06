@@ -3,11 +3,12 @@ package assembler
 import (
 	"errors"
 	"fmt"
+	"strconv"
+	"strings"
+
 	. "github.com/Okira-E/two-pass-sicxe-assembler/types"
 	"github.com/Okira-E/two-pass-sicxe-assembler/utils"
 	"github.com/Okira-E/two-pass-sicxe-assembler/vars"
-	"strconv"
-	"strings"
 )
 
 // FirstPass returns a map of the symbol table.
@@ -154,6 +155,16 @@ func SecondPass(asmInstructions *[]AsmInstruction, symTable map[string]int, base
 				} else {
 					utils.PanicIfError(errors.New("ERROR: invalid BYTE instruction"))
 				}
+				// The operand is the object code.
+				objCode += operand
+			} else if asmInstruction.OpCodeEn == "WORD" {
+				// Convert the operand to hex.
+				operandInDecimal, err := strconv.ParseInt(rawOperand, 10, 64)
+				if err != nil {
+					utils.PanicIfError(err)
+
+				}
+				operand := fmt.Sprintf("%06X", operandInDecimal)
 				// The operand is the object code.
 				objCode += operand
 			} else if asmInstruction.OpCodeEn == "RSUB" {
