@@ -127,13 +127,11 @@ func PrintAssemblerRules() {
 	- The assembler assumes that the last instruction is the END instruction.
 	- Assembly code must be written in the following format:
 		* <Label>	<Operation Code>	<Operand>
-	- Assembly code must be written in a single line. symbols must be separated by tabs.
+	- Assembly code must be written in a single line. symbols must be separated by at least one space and/or a tab.
 	- Assembly code is not case-sensitive.
-	- Comments are not supported.
+	- Comments are supported and must start with a '.' (dot).
 	- The assembler assumes that the label field is optional. If it is present, it must be a valid label.
-	  If not present, 'nil' or 'NIL' must be used.
 	- The assembler assumes that the operand field is optional. If it is present, it must be a valid operand.
-	  If not present, 'nil' or 'NIL' must be used.
 	- The assembler assumes that the operation code field is mandatory. It must be a valid operation code.
 	- The assembler assumes that the operand field is mandatory for the following operations:
 		* BYTE
