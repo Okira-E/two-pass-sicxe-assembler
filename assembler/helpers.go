@@ -14,56 +14,52 @@ import (
 func ParseCode(asm string) []types.AsmInstruction {
 	asm = strings.ToUpper(asm)
 
-	// Replaces consecutive spaces with a single space.
-	for i := range asm {
-		char := asm[i]
-		if i == 0 {
-			if utils.InvalidCharOrSpace(char) {
-				// Remove the character.
-				asm = asm[:i] + asm[i+1:]
-			}
-			continue
-		}
-
-		prevChar := asm[i-1]
-		if utils.InvalidCharOrSpace(char) {
-			if utils.InvalidCharOrSpace(prevChar) {
-				// Check if it's the last character. If so, remove it.
-				if i == len(asm)-1 {
-					asm = asm[:i]
-					break
-				}
-				// Remove the character.
-				asm = asm[:i] + asm[i+1:]
-			} else {
-				// Check if it's the last character. If so, replace it with a space.
-				if i == len(asm)-1 {
-					asm = asm[:i] + " "
-					break
-				}
-				// Replace the character with a space.
-				asm = asm[:i] + " " + asm[i+1:]
-			}
-		}
-
-		// Since we parse by spaces, we need to remove the spaces after commas.
-		if char == ',' && i != len(asm)-2 && asm[i+1] == ' ' && asm[i+2] != ' ' {
-			asm = asm[:i+1] + asm[i+2:]
-		}
-	}
-
 	// Create the instructions array.
 	var asmInstructions []types.AsmInstruction
 
-	// Split the code into lines.
-	lines := strings.Split(asm, " ")
+	// Iterate over the asm string by lines.
+	for _, line := range strings.Split(asm, "\n") {
+		// Skip the line if it is empty.
+		if line == "" {
+			continue
+		}
+		// Skip the line if it is a comment.
+		if strings.HasPrefix(line, ".") {
+			continue
+		}
+		// Take the words inside a line and put them into a slice.
+		// Each word is seperated by at least one space and/or a tab.
+		words := strings.Fields(line)
 
-	for i := 0; i < len(lines)-3; i += 3 {
+		// Initialize the AsmInstruction struct.
 		var asmInstruction types.AsmInstruction
 
-		asmInstruction.Label = lines[i]
-		asmInstruction.OpCodeEn = lines[i+1]
-		asmInstruction.Operand = lines[i+2]
+		// Determine how many words are in the line.
+		numberOfWords := len(words)
+		// If there are more than 3 words, then the line is invalid.
+		if numberOfWords > 3 {
+			utils.Log("Invalid line: " + line)
+			utils.Log("Too many words.")
+			os.Exit(1)
+		}
+		// If there is only one word, then it is an opcode.
+		if numberOfWords == 1 {
+			asmInstruction.Label = "NIL"
+			asmInstruction.OpCodeEn = words[0]
+			asmInstruction.Operand = "NIL"
+		} else if numberOfWords == 2 {
+			// If there are two words, then the first word is an opcode and the second word is an operand.
+			asmInstruction.Label = "NIL"
+			asmInstruction.OpCodeEn = words[0]
+			asmInstruction.Operand = words[1]
+		} else {
+			// If there are three words, then the first word is a label, the second word is an opcode, and the third word is an operand.
+			asmInstruction.Label = words[0]
+			asmInstruction.OpCodeEn = words[1]
+			asmInstruction.Operand = words[2]
+		}
+
+		// Add the AsmInstruction struct to the instructions array.
 		asmInstructions = append(asmInstructions, asmInstruction)
 	}
 
