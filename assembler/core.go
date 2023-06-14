@@ -37,10 +37,18 @@ func FirstPass(asmInstructions *[]AsmInstruction, baseRegister *BaseRegister) ma
 
 	loc := int(startingAddressInt)
 
+	definedLabels := map[string]bool{}
 	for i := 0; i < len(*asmInstructions); i++ {
 		asmInstructionRef := &(*asmInstructions)[i]
 		asmInstructionRef.Loc = loc
 		newLoc := loc
+
+		// -- Check for duplicate labels.
+		if !definedLabels[asmInstructionRef.Label] {
+			definedLabels[asmInstructionRef.Label] = true
+		} else if definedLabels[asmInstructionRef.Label] && asmInstructionRef.Label != "NIL" {
+			utils.PanicIfError(errors.New("ERROR: duplicate label definition"))
+		}
 
 		if !asmInstructionRef.IsZeroLengthInstruction(vars.OpTable) {
 			opCode := ""
